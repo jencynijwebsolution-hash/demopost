@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket Notification Test</title>
+</head>
+<style>
+
+.notification{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-family: Arial;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn{
+    from{
+        transform: translateX(100%);
+        opacity:0;
+    }
+    to{
+        transform: translateX(0);
+        opacity:1;
+    }
+}
+
+</style>
+<body>
+
+<h2>Admin Page</h2>
+
+<ul id="messages"></ul>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+<script>
+
+const socket = io("http://localhost:3000");
+
+socket.on("connect", () => {
+
+    socket.emit("join", {
+        id: 1,
+        role: "Admin"
+    });
+
+});
+
+socket.on("new-message", (data) => {
+    showNotification(data.title);
+});
+
+function showNotification(message){
+
+    const notification = document.createElement("div");
+
+    notification.className = "notification";
+
+    notification.innerHTML = `
+        <strong>New User</strong><br>
+        ${message}
+    `;
+
+    document.body.appendChild(notification);
+
+    setTimeout(()=>{
+        notification.remove();
+    },4000);
+
+}
+
+</script>
