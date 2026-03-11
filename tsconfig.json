@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES6"
+    ],
+    "module": "NodeNext",
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "./dist",
+    "node_modules"
+  ]
+}

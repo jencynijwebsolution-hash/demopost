@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Notification</title>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+<style>
+
+.notification{
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:#2196F3;
+    color:white;
+    padding:15px 20px;
+    border-radius:8px;
+    font-family:Arial;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>User Page</h2>
+
+<script>
+
+const socket = io("http://localhost:3000");
+
+socket.on("connect",()=>{
+
+    socket.emit("join",{
+        id:58,
+        role:"User"
+    });
+
+});
+
+socket.on("user-active",(data)=>{
+
+    const div = document.createElement("div");
+
+    div.className = "notification";
+
+    div.innerHTML = `
+        <strong>Account Status</strong><br>
+        ${data.message}
+    `;
+
+    document.body.appendChild(div);
+
+    setTimeout(()=>{
+        div.remove();
+    },4000);
+
+});
+
+socket.on("otp-resend", (data) => {
+        showNotification(`OTP Resend: ${data.title}`, data.message);
+        const otpInput = document.getElementById("otp");
+        if (otpInput) otpInput.value = data.message.split(": ")[1]; // extracts OTP
+    });
+
+
+</script>
+
+</body>
+</html>
