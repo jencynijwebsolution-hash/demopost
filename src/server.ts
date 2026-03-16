@@ -4,9 +4,13 @@ import http from "http";
 import express from "express";
 import app from "./app";
 
-const PORT = process.env.PORT || 3000;
+const PORT_API = process.env.PORT || 3000;
+const PORT2_SOCKET = 4000;
 
-const server = http.createServer(app);
+const apiServer = http.createServer(app);
+
+const socketApp = express();
+const socketServer = http.createServer(socketApp);
 
 app.get("/", (req: express.Request, res: express.Response) => {
     res.status(200).send("🌟 backend has been connected successfully .");
@@ -21,11 +25,15 @@ app.get("/", (req: express.Request, res: express.Response) => {
         await sequelize.sync({ alter: true });
         console.log("✅ Models synchronized");
 
-        initsocket(server);
+        initsocket(socketServer);
         console.log("socket initialized");
 
-        server.listen(PORT, () => {
-            console.log(`server running at http://localhost:${PORT}`);
+        apiServer.listen(PORT_API, () => {
+            console.log(`API server running at http://localhost:${PORT_API}`);
+        });
+
+        socketServer.listen(PORT2_SOCKET, () => {
+            console.log(`Socket Server running at http://localhost:${PORT2_SOCKET}`);
         });
 
     } catch (error) {

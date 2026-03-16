@@ -1,42 +1,38 @@
-import { timeStamp } from "node:console";
-import { sequelize } from "../../config/database";
+import { sequelize } from "../config/database";
 import { DataTypes, Model } from "sequelize";
 
-class AdminNotification extends Model {
-    forEach(arg0: (admin: any) => void) {
-        throw new Error("Method not implemented.");
-    }
-
+class UserNotification extends Model {
     public declare id: number;
-    public declare admin_id: number;
+    public declare user_id: number;
     public declare title: string;
     public declare notification_type: string;
     public declare model_name: string;
     public declare model_id: number;
 }
 
-AdminNotification.init(
+UserNotification.init(
     {
         id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
+            type: DataTypes.BIGINT.UNSIGNED,
             primaryKey: true,
+            autoIncrement: true
         },
-        admin_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
+        user_id: {
+            type: DataTypes.BIGINT.UNSIGNED,
+            allowNull: true
         },
         title: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.TEXT,
+            allowNull: true
         },
         notification_type: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: true
         },
         model_name: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
+            defaultValue: null
         },
         model_id: {
             type: DataTypes.BIGINT.UNSIGNED,
@@ -46,9 +42,13 @@ AdminNotification.init(
     },
     {
         sequelize,
-        tableName: 'AdminNotification',
         timestamps: true,
+        tableName: "UserNotification",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+        underscored: true
     }
+
 )
 
-export default AdminNotification;
+export default UserNotification;

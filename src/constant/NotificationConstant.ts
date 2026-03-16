@@ -16,5 +16,4 @@ export const NOTIFICATION_ACCOUNT_STATUS = Object.freeze({
     PENDING: "user account pending",
     ACTIVE: "user account active",
     DEACTIVE: "user account deactive"
-
 })

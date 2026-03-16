@@ -1,7 +1,7 @@
 import { timeStamp } from "node:console";
-import { sequelize } from "../../config/database";
+import { sequelize } from "../config/database";
 import { DataTypes, Model } from "sequelize";
-import { encryptPassword } from "../../utils/Helper";
+import {encryptPassword}  from "../utils/Helper";
 
 
 class User extends Model {

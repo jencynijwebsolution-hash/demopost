@@ -1,6 +1,6 @@
 import { Response, NextFunction } from "express";
 import { CustomRequest} from "../utils/Helper";
-import User from "../models/user/UserModel";
+import User from "../models/UserModel";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import ApiError from "../utils/ApiError";
 

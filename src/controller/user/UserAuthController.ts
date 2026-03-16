@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../../models/user/UserModel";
+import User from "../../models/UserModel";
 import MailService from "../../utils/MailServices";
 import Logger from "../../logger";
 import bcrypt from "bcrypt";
@@ -14,7 +14,7 @@ export const userSignup = async (req: Request, res: Response, next: NextFunction
         const { name, email, password } = req.body;
         const userExist = await User.findOne({ where: { email } })
         if (userExist) {
-            return next(new ApiError("user already exists", 400));
+            return res.status(409).json({ message: "user already exist" });
         }
 
         const user = await User.create({
@@ -131,7 +131,7 @@ export const verifyOtp = catchAsync(
         const user = await User.findOne({ where: { email } });
 
         if (!user) {
-            return next(new ApiError("User not found", 404));
+            return next(new ApiError("User not found", 400));
         }
 
         if (user.otp !== otp) {
@@ -183,7 +183,7 @@ export const resendOtp = async (req: CustomRequest, res: Response) => {
         }
 
         if (user.isVerified) {
-            return res.status(400).json({
+            return res.status(409).json({
                 message: "User already verified"
             });
         }

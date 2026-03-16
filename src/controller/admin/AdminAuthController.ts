@@ -1,6 +1,6 @@
 import ApiFeatures from "../../utils/ApiFeatures";
 import { Request, Response, NextFunction } from "express";
-import User from "../../models/user/UserModel";
+import User from "../../models/UserModel";
 import Logger from "../../logger";
 import MailService from "../../utils/MailServices";
 import { sendNotification } from "../../utils/Helper";
@@ -21,7 +21,6 @@ export const userList = async (req: Request, res: Response, next: NextFunction) 
         res.status(200).json({ result });
 
     } catch (error: any) {
-
         res.status(500).json({ message: "Error fetching users" });
     }
 };
@@ -52,14 +51,13 @@ export const status = async (req: Request, res: Response, next: NextFunction) =>
         }
 
         if (user.status === status) {
-            return res.status(400).json({
+            return res.status(409).json({
                 message: `user is already ${status}`
             });
         }
 
         user.status = status;
         await user.save();
-
 
         await sendNotification({
             "message": `Your account is now ${status}`,

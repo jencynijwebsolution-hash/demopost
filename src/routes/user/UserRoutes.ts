@@ -8,7 +8,7 @@ const router = Router();
 router.post("/", validate(registerSchema), userSignup);
 router.post("/login", userLogin);
 router.get("/getOne/:id", authenticate, getUserById);
-router.post("/resendOTP", resendOtp)
-router.get("/verifyOTP", verifyOtp)
+router.post("/resendOTP", resendOtp);
+router.post("/verifyOTP", verifyOtp);
 
 export default router;

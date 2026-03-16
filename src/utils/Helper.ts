@@ -1,8 +1,8 @@
 import { Request } from "express";
 import bcrypt from "bcrypt";
 import { JwtPayload } from "jsonwebtoken"
-import AdminNotification from "../models/admin/AdminNotificationModel";
-import UserNotification from "../models/user/UserNotificationModel"
+import AdminNotification from "../models/AdminNotificationModel";
+import UserNotification from "../models/UserNotificationModel"
 import Logger from "../logger";
 import { getIo } from "../socket"
 import { Model, ModelStatic } from "sequelize";
