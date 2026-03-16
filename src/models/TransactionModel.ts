@@ -13,59 +13,59 @@ class Transaction extends Model {
 }
 
 Transaction.init(
-{
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true
-    },
+    {
+        id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true
+        },
 
-    user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
 
-    type: {
-        type: DataTypes.ENUM("deposit","withdrawal"),
-        allowNull: false
-    },
+        type: {
+            type: DataTypes.ENUM("deposit", "withdrawal"),
+            allowNull: false
+        },
 
-    sign:{
-         type: DataTypes.STRING,
-        allowNull: false
-    },
+        sign: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
 
-    amount: {
-        type: DataTypes.DECIMAL(14,2),
-        allowNull: false
-    },
+        amount: {
+            type: DataTypes.DECIMAL(14, 2),
+            allowNull: false
+        },
 
-    opening_balance: {
-        type: DataTypes.DECIMAL(14,2),
-        allowNull: false
-    },
+        opening_balance: {
+            type: DataTypes.DECIMAL(14, 2),
+            allowNull: false
+        },
 
-    closing_balance: {
-        type: DataTypes.DECIMAL(14,2),
-        allowNull: false
-    },
+        closing_balance: {
+            type: DataTypes.DECIMAL(14, 2),
+            allowNull: false
+        },
 
-    status: {
-        type: DataTypes.ENUM("pending","success","failed"),
-        defaultValue: "pending"
-    },
+        status: {
+            type: DataTypes.ENUM("pending", "success", "failed"),
+            defaultValue: "pending"
+        },
 
-    remark: {
-        type: DataTypes.TEXT,
-        allowNull: true
+        remark: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        }
+
+    },
+    {
+        sequelize,
+        tableName: "transactions",
+        timestamps: true
     }
-
-},
-{
-    sequelize,
-    tableName: "transactions",
-    timestamps: true
-}
 );
 
 export default Transaction;
