@@ -3,6 +3,7 @@ import Withdrawl from "../../models/WithdrawlModel";
 import User from "../../models/UserModel";
 import Wallet from "../../models/WalletModel";
 import Transaction from "../../models/TransactionModel";
+import { TRANSACTION_CONSTANT, TRANSACTION_REMARKS } from "../../constant/TransactionConstant";
 
 export const createWithdrawal = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -33,8 +34,16 @@ export const createWithdrawal = async (req: Request, res: Response, next: NextFu
             });
         }
         const openingBalance = Number(wallet.balance);
-        const closingBalance = openingBalance - Number(amount);
 
+
+        if (openingBalance < Number(amount)) {
+            return res.status(400).json({
+                status: "fail",
+                message: "Insufficient balance"
+            });
+        }
+
+        const closingBalance = openingBalance - Number(amount);
         const withdraw = await Withdrawl.create({
             user_id,
             amount,
@@ -43,17 +52,23 @@ export const createWithdrawal = async (req: Request, res: Response, next: NextFu
             remark
         });
 
-        wallet.balance = closingBalance;
-        await wallet.save();
+
+        let trxDeduct = TRANSACTION_CONSTANT.TRX_TYPE.DEDUCT;
+
         const transaction = await Transaction.create({
             user_id,
             type: "withdrawal",
+            sign: trxDeduct.SIGN,
             amount,
             opening_balance: openingBalance,
             closing_balance: closingBalance,
             status: "success",
-            remark
+            remark: TRANSACTION_REMARKS.WITHDRAW
         });
+
+        wallet.balance = closingBalance;
+        await wallet.save();
+
         res.status(200).json({
             status: "success",
             message: "Withdrawal successfully",

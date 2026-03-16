@@ -4,6 +4,7 @@ import User from "../../models/UserModel";
 import { any } from "joi";
 import Transaction from "../../models/TransactionModel";
 import Wallet from "../../models/WalletModel";
+import { TRANSACTION_CONSTANT, TRANSACTION_REMARKS } from "../../constant/TransactionConstant";
 
 export const createDeposite = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -38,10 +39,6 @@ export const createDeposite = async (req: Request, res: Response, next: NextFunc
         const openingBalance = Number(wallet.balance);
         const closingBalance = openingBalance + Number(amount);
 
-        // Update wallet balance
-        wallet.balance = closingBalance;
-        await wallet.save();
-
         const deposit = await Deposit.create({
             user_id,
             amount,
@@ -50,15 +47,21 @@ export const createDeposite = async (req: Request, res: Response, next: NextFunc
             remark
         });
 
+        let trxAdd = TRANSACTION_CONSTANT.TRX_TYPE.ADDED;
+
         const transaction = await Transaction.create({
             user_id,
             type: "deposit",
+            sign: trxAdd.SIGN,
             amount,
             opening_balance: openingBalance,
             closing_balance: closingBalance,
             status: "success",
-            remark
+            remark: TRANSACTION_REMARKS.DEPOSIT
         });
+
+        wallet.balance = closingBalance;
+        await wallet.save();
 
         res.status(200).json({
             status: "success",

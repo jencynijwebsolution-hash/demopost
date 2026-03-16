@@ -30,6 +30,11 @@ Transaction.init(
         allowNull: false
     },
 
+    sign:{
+         type: DataTypes.STRING,
+        allowNull: false
+    },
+
     amount: {
         type: DataTypes.DECIMAL(14,2),
         allowNull: false
